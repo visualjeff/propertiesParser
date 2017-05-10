@@ -38,11 +38,10 @@ var schema = {
 
 Prompt.get(schema, function(err, result) {
     Pino.info('Command-line input received:');
-    Pino.info(`filename:  ${result.filename}`);
+    //Pino.info(`filename:  ${result.filename}`);
     let filename = Sanitize(result.filename);
-    Pino.info(`Sanitized filename: ${filename}`);
-
-    Pino.info(`locale: ${result.locale}`);
+    Pino.info(`  Sanitized filename: ${filename}`);
+    Pino.info(`  locale: ${result.locale}`);
     let locale = result.locale;
     fs.access(filename, fs.constants.R_OK | fs.constants.W_OK, (err) => {
         if (err) {
@@ -54,7 +53,7 @@ Prompt.get(schema, function(err, result) {
             }
             return Pino.error(`You don't have access to ${filename}`);
         }
-        Pino.info(`You have access.  Yeah!`);
+        //Pino.info(`You have access.  Yeah!`);
 
         //Duplicate the file but for a different local
         let newFileName = '';
@@ -64,30 +63,36 @@ Prompt.get(schema, function(err, result) {
             let basename = fileArray[0];
             newFileName = `${basename}_${locale}.${ext}`;
             fse.copySync(filename, newFileName);
+            Pino.info(`New filename: ${newFileName}`);
         } catch (err) {
             console.error(err)
         }
 
-        //PropertiesParser.read(filename);
-        PropertiesParser.read(filename, (err, data) => {        
+        PropertiesParser.read(filename, (err, data) => {
             PropertiesParser2.createEditor(`./${newFileName}`, (err, editor) => {
-	        for (const element in data) {
-                    yandexTranslate({
-                        key: key,
-                        lang: `en-${locale}`,
-                        text: data[element]
-                    }, result => {
-			let key = element;
-			let value = result[data[element]];
-                        editor.set(key, value);
-			editor.save();
-                    });
+                let interval = 0;
+                for (const element in data) {
+		    console.log(interval);
+                    setTimeout(function() { //Wait about 250ms between requests.
+                        yandexTranslate({
+                            key: key,
+                            lang: `en-${locale}`,
+                            text: data[element]
+                        }, result => {
+                            let key = element;
+                            let value = result[data[element]];
+                            editor.set(key, value);
+                            editor.save();
+                        });
+                    }, interval);
+                    interval = interval + 250;
                 }
             });
         });
     });
 });
 
+/*
 let googleTranslate = function(opts, callback) {
     opts = Object.assign(opts, {
         source: 'en',
@@ -97,6 +102,7 @@ let googleTranslate = function(opts, callback) {
     });
 
     var url = 'https://www.googleapis.com/language/translate/v2?' + querystring.stringify(opts);
+    //console.log(url);
     request.get(url, function(err, response, body) {
         if (err) throw err;
         var json = JSON.parse(body);
@@ -111,6 +117,7 @@ let googleTranslate = function(opts, callback) {
         callback(result);
     });
 };
+*/
 
 let yandexTranslate = function(opts, callback) {
     //opts = Object.assign(opts, { lang: 'en-es', key: 'secret',  text: 'text' });
@@ -119,6 +126,7 @@ let yandexTranslate = function(opts, callback) {
     //console.log(`url: ${url}`);
 
     request.get(url, function(err, response, body) {
+        console.log('.');
         if (err) throw err;
         var json = JSON.parse(body);
         if (json.error) {
