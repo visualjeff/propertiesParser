@@ -71,28 +71,40 @@ Prompt.get(schema, function(err, result) {
         PropertiesParser.read(filename, (err, data) => {
             PropertiesParser2.createEditor(`./${newFileName}`, (err, editor) => {
                 let interval = 0;
+                let incrementValue = 250; //Wait about 250ms between requests.
                 for (const element in data) {
-		    console.log(interval);
-                    setTimeout(function() { //Wait about 250ms between requests.
-                        yandexTranslate({
-                            key: key,
-                            lang: `en-${locale}`,
-                            text: data[element]
-                        }, result => {
+                    if (data[element] !== "") {
+                        incrementValue = incrementValue + (Math.floor(Math.random() * 3) + 1); //Random creep added so we don't look like a script to the service provider..
+                        interval = interval + incrementValue;
+                        setTimeout(function() {
+                            Pino.info(`Processing: ${data[element]}, interval: ${Date.now()}`);
+                            yandexTranslate({
+                                key: key,
+                                lang: `en-${locale}`,
+                                text: data[element]
+                            }, result => {
+                                let key = element;
+                                let value = result[data[element]];
+                                editor.set(key, value);
+                                editor.save();
+                            });
+                        }, interval);
+                    } else {
+                        setTimeout(function() {
+                            Pino.info(`Processing: ${data[element]}, interval: ${Date.now()}`);
                             let key = element;
-                            let value = result[data[element]];
+                            let value = data[element]; //basically a blank value
                             editor.set(key, value);
                             editor.save();
-                        });
-                    }, interval);
-                    interval = interval + 250;
+                        }, interval);
+                    }
                 }
             });
         });
     });
 });
 
-/*
+/* Google translate isn't free!
 let googleTranslate = function(opts, callback) {
     opts = Object.assign(opts, {
         source: 'en',
@@ -119,6 +131,7 @@ let googleTranslate = function(opts, callback) {
 };
 */
 
+//Yandex Translate is free!
 let yandexTranslate = function(opts, callback) {
     //opts = Object.assign(opts, { lang: 'en-es', key: 'secret',  text: 'text' });
 
@@ -126,7 +139,6 @@ let yandexTranslate = function(opts, callback) {
     //console.log(`url: ${url}`);
 
     request.get(url, function(err, response, body) {
-        console.log('.');
         if (err) throw err;
         var json = JSON.parse(body);
         if (json.error) {

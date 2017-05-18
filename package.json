@@ -16,6 +16,7 @@
     "pino": "^4.5.0",
     "prompt": "^1.0.0",
     "properties-parser": "^0.3.1",
+    "request": "^2.81.0",
     "sanitize-filename": "^1.6.1"
   }
 }
