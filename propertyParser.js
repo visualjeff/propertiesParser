@@ -104,33 +104,6 @@ Prompt.get(schema, function(err, result) {
     });
 });
 
-/* Google translate isn't free!
-let googleTranslate = function(opts, callback) {
-    opts = Object.assign(opts, {
-        source: 'en',
-        target: 'fr',
-        key: 'secret',
-        q: 'text'
-    });
-
-    var url = 'https://www.googleapis.com/language/translate/v2?' + querystring.stringify(opts);
-    //console.log(url);
-    request.get(url, function(err, response, body) {
-        if (err) throw err;
-        var json = JSON.parse(body);
-        if (json.error) {
-            throw json.error.message;
-        }
-        var strings = util.isArray(opts.q) ? opts.q : [opts.q];
-        var result = {};
-        strings.forEach(function(orig, i) {
-            result[orig] = json.data.translations[i].translatedText;
-        });
-        callback(result);
-    });
-};
-*/
-
 //Yandex Translate is free!
 let yandexTranslate = function(opts, callback) {
     //opts = Object.assign(opts, { lang: 'en-es', key: 'secret',  text: 'text' });

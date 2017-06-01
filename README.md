@@ -1,8 +1,9 @@
-##propertyParser uses https://translate.yandex.net to go through a properties file and converts the text values based on locale:
+
+## propertyParser uses [https://translate.yandex.net](https://translate.yandex.net) to go through a properties file and converts all of its text values to a different locale:
 
 **To use:**
 
-Update the service key in propertyParser.js:
+Update the [developers key](https://translate.yandex.com/developers/keys) in propertyParser.js:
 
 ```
 const key = 'trnsl.1.1.20170505T025536Z.3edcea2be083e2f2.63e93143a8cbe4e89a2de0d36c0bbb7c4259f2d6';
@@ -13,11 +14,11 @@ const key = 'trnsl.1.1.20170505T025536Z.3edcea2be083e2f2.63e93143a8cbe4e89a2de0d
 node propertyParser.js
 ```
 
-You will be prompted for the path to your properties file and then locale you'd like applied. 
+You will be prompted for the path to your properties file followed by the locale you'd like applied. 
 
-What gets created is a new file with the locale changes applied.
+A new file will be created with the locale changes applied.
 
-Here is what you'll see when it runs:
+Here is what you'll see when the script runs:
 ```
 jeff@debian:~/Documents/propertiesParser$ node propertyParser.js 
 What is the name of file?: test.properties
@@ -39,7 +40,7 @@ What locale do you want to convert to?: es
 jeff@debian:~/Documents/propertiesParser$ ls
 node_modules  package.json  propertyParser.js  README.md  test_es.properties  test.properties
 ```
-We requested a spanish version of our properties file be created.  After the command ran we have test_es.properties.
+In the example above I requested a spanish version of our properties file be created.  After the command completes we now have test_es.properties.  A spanish version of the test.properties file.
 
-Enjoy.
+Enjoy!
 
