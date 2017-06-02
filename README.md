@@ -3,13 +3,16 @@
 
 **To use:**
 
-Install Node.js (v6.9.x and up will work)
+1. Install Node.js (v6.9.x and up will work)
 
-Update the [developers key](https://translate.yandex.com/developers/keys) in the file propertyParser.js:
+2. Update the [developers key](https://translate.yandex.com/developers/keys) in the file propertyParser.js:
 
 ```
 const key = 'trnsl.1.1.20170505T025536Z.3edcea2be083e2f2.63e93143a8cbe4e89a2de0d36c0bbb7c4259f2d6';
 ```
+
+3. Run ***npm install*** to install dependencies.
+
 
 **To run:**
 ```
