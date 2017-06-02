@@ -2,8 +2,8 @@
 ## propertyParser uses [https://translate.yandex.net](https://translate.yandex.net) to go through a properties file and converts all of its text values to a different locale:
 
 **To use:**
-
-Update the [developers key](https://translate.yandex.com/developers/keys) in propertyParser.js:
+Install Node.js (v6.9.x and up will work)
+Update the [developers key](https://translate.yandex.com/developers/keys) in the file propertyParser.js:
 
 ```
 const key = 'trnsl.1.1.20170505T025536Z.3edcea2be083e2f2.63e93143a8cbe4e89a2de0d36c0bbb7c4259f2d6';
