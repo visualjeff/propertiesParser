@@ -3,6 +3,7 @@
 
 **To use:**
 Install Node.js (v6.9.x and up will work)
+
 Update the [developers key](https://translate.yandex.com/developers/keys) in the file propertyParser.js:
 
 ```
