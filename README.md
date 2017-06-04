@@ -1,5 +1,19 @@
 
-## propertyParser uses [https://translate.yandex.net](https://translate.yandex.net) to go through a properties file and converts all of its text values to a different locale:
+## propertyParser uses the [https://translate.yandex.net](https://translate.yandex.net) service to parse your properties file and converts all of its text values to a different locale.  For example: From English to Spanish(es) or maybe to French(fr):
+
+**Features:**
+
+1. Can handle token placeholders such as: {0}
+
+```
+greeting=Hello {0} and welcome to {1}
+```
+
+2. Ignores lines with blank values:
+```
+errorMessage1=Error: {0}
+errorMessage2=
+```
 
 **To use:**
 
